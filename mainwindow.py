@@ -40,6 +40,10 @@ class Window(QMainWindow):
         self.menu.addAction(copyright)
         copyright.triggered.connect(self._open_copyright)
 
+        about = QAction("About", self)
+        self.menu.addAction(about)
+        about.triggered.connect(self._open_about)
+
     def _createToolBar(self):
         tools = QToolBar()
         self.addToolBar(tools)
@@ -82,6 +86,29 @@ class Window(QMainWindow):
 
         # Execute Dialog-Window
         Copyright.exec()
+
+    def _open_about(self):
+        About=QDialog(None, Qt.WindowTitleHint | Qt.WindowCloseButtonHint)
+
+        OkBtn=QDialogButtonBox(About)
+        About.setFixedSize(400,150)
+        About.setWindowTitle("Copyright")
+
+        AboutLbl=QLabel("Test Case Importer Tool")
+        AboutLbl.setFont(QFont("Arial", 8, QFont.Bold))
+        AboutLbl1=QLabel('Version:  {}'.format(__version__))
+        AboutLbl2=QLabel('Author:  {}'.format(__author__))
+
+        AboutLayout=QVBoxLayout()
+        AboutLayout.addStretch(1)
+        AboutLayout.addWidget(AboutLbl)
+        AboutLayout.addSpacing(10)
+        AboutLayout.addWidget(AboutLbl1)
+        AboutLayout.addWidget(AboutLbl2)
+        AboutLayout.addStretch(1)
+
+        About.setLayout(AboutLayout)
+        About.exec()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
