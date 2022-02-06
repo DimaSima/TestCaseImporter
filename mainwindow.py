@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QStatusBar
 from PyQt5.QtWidgets import QToolBar
 from PyQt5.QtWidgets import QAction
-from PyQt5.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout
+from PyQt5.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout, QStackedWidget,QWidget, QHBoxLayout
 from PyQt5.QtGui import QFont, QIcon, QPixmap
 from PyQt5.QtCore import Qt, QSize
 
@@ -28,11 +28,17 @@ class Window(QMainWindow):
         self.setMinimumSize(self.width, self.height)
         self.setStyleSheet("background:rgb(255,255,255)")
         self.setWindowTitle('Test Case Import Tool')
-        welcomeText = MainLabel("Eximia Engineering\nTest Case Import Tool")
-        #self.setCentralWidget(welcomeText)
         self._createMenu()
         self._createToolBar()
         self._createStatusBar()
+
+        self.stackedWidget=QStackedWidget()
+        self.startWindow=StartWindow()
+
+        self.stackedWidget.addWidget(self.startWindow)
+
+        self.setCentralWidget(self.stackedWidget)
+        self.show()
 
     def _createMenu(self):
         self.menu = self.menuBar().addMenu("&Menu")
@@ -109,6 +115,24 @@ class Window(QMainWindow):
 
         About.setLayout(AboutLayout)
         About.exec()
+
+
+class StartWindow(QWidget):
+        def __init__(self):
+            super().__init__()
+            self.setStyleSheet("background:rgb(255,255,255)")
+            #self.eximiaText = MainLabel("Eximia Engineering")
+            #self.toolText = MainLabel("Test Case Import Tool")
+            self.eximiaText = QLabel("Eximia Engineering",self)
+            self.toolText = QLabel("Test Case Import Tool",self)
+
+            windowLayout = QHBoxLayout()
+            windowLayout.addWidget(self.eximiaText)
+            windowLayout.addWidget(self.toolText)
+
+            self.setLayout(windowLayout)
+            self.show()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
