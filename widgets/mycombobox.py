@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QVBoxLayout,QLabel,QWidget, QComboBox, QHBoxLayout
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont, QIcon, QPixmap
+from PyQt5.QtGui import QFont, QPalette
 
 
 class MyComboBox(QWidget):
@@ -17,7 +17,7 @@ class MyComboBox(QWidget):
         self.cb.setCurrentIndex(0)
         self.cb.setPlaceholderText("Wähle einen Dienst aus:")
         self.cb.setFont(QFont("Arial", 10, QFont.Bold))
-        self.cb.setStyleSheet("background:rgb(0,255,0)")
+        self.cb.setStyleSheet("color: white; background:rgb(15,25,70)")
 
         layout = QHBoxLayout()
         layout.addWidget(self.cb)

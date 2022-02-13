@@ -58,7 +58,6 @@ class Window(QWidget):
         Copyright=QDialog(None, Qt.WindowTitleHint | Qt.WindowCloseButtonHint)
 
         OkBtn=QDialogButtonBox(Copyright)
-        #Copyright.accepted.connect(self.close())
         Copyright.setFixedSize(600,500)
         Copyright.setWindowTitle("Copyright")
 
@@ -129,6 +128,7 @@ class StartWindow(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    app.setStyle('Fusion')
     win = Window()
     win.show()
     sys.exit(app.exec_())
