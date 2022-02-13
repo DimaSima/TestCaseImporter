@@ -6,16 +6,17 @@ from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QStatusBar
 from PyQt5.QtWidgets import QToolBar
 from PyQt5.QtWidgets import QAction
-from PyQt5.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout, QStackedWidget,QWidget, QHBoxLayout
+from PyQt5.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout, QStackedWidget,QWidget, QHBoxLayout, QMenuBar
 from PyQt5.QtGui import QFont, QIcon, QPixmap
 from PyQt5.QtCore import Qt, QSize
 
 from widgets.mainlabel import MainLabel
+from widgets.mycombobox import MyComboBox
 
 __version__ = '0.1'
 __author__ = 'Dmitrij Simagin'
 
-class Window(QMainWindow):
+class Window(QWidget):
     """Main Window."""
     def __init__(self, parent=None):
         """Initializer."""
@@ -29,19 +30,21 @@ class Window(QMainWindow):
         self.setStyleSheet("background:rgb(255,255,255)")
         self.setWindowTitle('Test Case Import Tool')
         self._createMenu()
-        self._createToolBar()
-        self._createStatusBar()
 
         self.stackedWidget=QStackedWidget()
         self.startWindow=StartWindow()
 
         self.stackedWidget.addWidget(self.startWindow)
 
-        self.setCentralWidget(self.stackedWidget)
+        WindowLayout=QVBoxLayout()
+        WindowLayout.addWidget(self.menu)
+        WindowLayout.addWidget(self.stackedWidget)
+        self.setLayout(WindowLayout)
+
         self.show()
 
     def _createMenu(self):
-        self.menu = self.menuBar().addMenu("&Menu")
+        self.menu = QMenuBar(self)
         copyright = QAction("Copyright",self)
         self.menu.addAction(copyright)
         copyright.triggered.connect(self._open_copyright)
@@ -50,15 +53,6 @@ class Window(QMainWindow):
         self.menu.addAction(about)
         about.triggered.connect(self._open_about)
 
-    def _createToolBar(self):
-        tools = QToolBar()
-        self.addToolBar(tools)
-        tools.addAction('Exit', self.close)
-
-    def _createStatusBar(self):
-        status = QStatusBar()
-        status.showMessage("I'm the Status Bar")
-        self.setStatusBar(status)
 
     def _open_copyright(self):
         Copyright=QDialog(None, Qt.WindowTitleHint | Qt.WindowCloseButtonHint)
@@ -121,14 +115,13 @@ class StartWindow(QWidget):
         def __init__(self):
             super().__init__()
             self.setStyleSheet("background:rgb(255,255,255)")
-            #self.eximiaText = MainLabel("Eximia Engineering")
-            #self.toolText = MainLabel("Test Case Import Tool")
-            self.eximiaText = QLabel("Eximia Engineering",self)
-            self.toolText = QLabel("Test Case Import Tool",self)
+            self.eximiaText = MainLabel("Eximia Engineering\nTest Case Import Tool")
+            self.cb = MyComboBox()
 
-            windowLayout = QHBoxLayout()
+            windowLayout = QVBoxLayout()
             windowLayout.addWidget(self.eximiaText)
-            windowLayout.addWidget(self.toolText)
+            windowLayout.addWidget(self.cb)
+            windowLayout.addStretch(1)
 
             self.setLayout(windowLayout)
             self.show()
